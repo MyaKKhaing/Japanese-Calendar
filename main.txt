@@ -1,0 +1,114 @@
+/*-----------------------------*/
+/*  インクルードファイル       */
+/*-----------------------------*/
+#include "Header.h"
+
+/*-----------------------------*/
+/*　関数名：main()             */
+/*-----------------------------*/
+void main(int argc, char* argv[])
+{
+	int year = ZERO;																						/*	年の変数		*/
+	int month = ZERO;																						/*	月の変数		*/
+	int day = ZERO;																							/*	日の変数		*/
+	int pattern;																							/*	パターンの変数	*/
+	int leapyear = ZERO;																					/*	うるう年		*/
+	bool check = true;
+
+	while (check)
+	{
+		printf(PATTERN);																					/*　パターンを選択させるメッセージ	*/
+		scanf_s("%d", &pattern);																			/*	ユーザーにパターンを選択させる  */
+		printf("\n");																						/*	改行する	*/
+
+		if (pattern == ONE)																					/*	パターンは　1かを確認する	*/
+		{
+			while (check)
+			{
+				printf(YEAR);
+				scanf_s("%d", &year);																		/*	ユーザーに(西暦)年を入力させる	*/
+
+				if ((year < MEIJI_START_YEAR) || (year > END_YEAR))
+				{
+					printf(OUT_OF_RANGE_YEAR);																/*	範囲外メッセージを表示する	*/
+				}
+				else
+				{
+					check = false;																			/*	現在のプロセスから出る	　*/
+				}
+			}
+		}
+
+		else if (pattern == TWO)																			/*	パターンが　2かを確認する	*/
+		{
+			while (check)
+			{
+				printf(YEAR);
+				scanf_s("%d", &year);																		/*	ユーザーに(西暦)年を入力させる	*/
+				printf(MONTH);
+				scanf_s("%d", &month);																		/*	ユーザーに(西暦)月を入力させる	*/
+				printf(DAY);
+				scanf_s("%d", &day);																		/*	ユーザーに(西暦)日を入力させる	*/
+
+				if (((year % FOUR == ZERO) && (year % HUNDRED != ZERO)) || (year % FOUR_HUNDRED == ZERO))	/*	うるう年かを確認する	*/
+				{
+					leapyear = ONE;																			/*	うるう年	*/
+				}
+				else
+				{
+					leapyear = ZERO;																		/*	うるう年ではありません	*/
+				}
+
+				if (((year == MEIJI_START_YEAR) && (month == JANUARY) && (day < TWENTY_FIVE)) ||
+					((year == END_YEAR) && (month == MARCH) && (day > THIRTY_ONE)) ||
+					((year == END_YEAR) && (month >= APRIL) && (day >= ONE)))
+				{
+					printf(OUT_OF_RANGE);																	/*	範囲外メッセージを表示する	*/
+				}
+
+				else if ((year < MEIJI_START_YEAR) || (year > END_YEAR) || (month < JANUARY) ||
+						(month > DECEMBER) || (day < ONE) || (day > THIRTY_ONE))
+				{
+					printf(OUT_OF_RANGE);																	/*	範囲外メッセージを表示する	*/
+				}
+
+				else if (((month == APRIL) || (month == JUNE) || (month == SEPTEMBER) ||
+						(month == NOVEMBER)) && (day > THIRTY))
+				{
+					printf(OUT_OF_RANGE);																	/*	範囲外メッセージを表示する	*/
+				}
+
+				else if (((month == JANUARY) || (month == MARCH) || (month == MAY) || (month == SEVEN) ||
+						(month == AUGUST) || (month == OCTOBER) || (month == DECEMBER)) && (day > THIRTY_ONE))
+				{
+					printf(OUT_OF_RANGE);																	/*	範囲外メッセージを表示する	*/
+				}
+
+				else if (((leapyear == ONE) && (month == FEBUARY) && (day > TWENTY_NINE)))
+				{
+					printf(LEAP_YEAR);																		/*	範囲外メッセージを表示する	*/
+				}
+
+				else if (((leapyear == ZERO) && (month == FEBUARY) && (day > TWENTY_EIGHT)))
+				{
+					printf(OUT_OF_RANGE);																	/*	範囲外メッセージを表示する。*/
+				}
+
+				else
+				{
+					check = false;																			/*	現在のプロセスから出る　*/
+				}
+			}
+		}
+
+		else
+		{
+			printf(WRONG_PATTERN);																			/*	パターンが範囲外ですと表示する	*/
+		}
+
+		printf("\n");																						/*	改行する	*/
+		Calculate(pattern ,year, month, day);																/*	関数 Calculate を呼び出す	*/
+	}
+
+	return 0;																								/*	システムに0を返する   */
+}

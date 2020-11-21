@@ -1,0 +1,261 @@
+/*------------------------*/
+/*  インクルードファイル  */
+/*------------------------*/
+#include "Header.h"
+
+/*------------------------------------------------------*/
+/* 関数名：Calculate()			                        */
+/* 概要：　　　　　　   　　		                    */
+/*------------------------------------------------------*/
+/*　入力パラメータ	：int pattern	[選択したパターン]	*/
+/*					:int year		[西暦の年]			*/
+/*					:int month		[西暦の月]			*/
+/*					:int day		[西暦の日]			*/
+/*　出力パラメータ	:なし								*/
+/*  戻り値			:なし								*/
+/*------------------------------------------------------*/
+
+void Calculate(int pattern, int year, int month, int day)
+{
+	int i;																	/*	行ループの変数		*/
+	int j;																	/*	カラムループの変数	*/
+	bool check = true;
+	int meiji_start_year = MEIJI_START_YEAR;								/*	明治の最初の年	*/
+	int taisho_start_year = TAISHO_START_YEAR;								/*	大正の最初の年	*/
+	int showa_start_year = SHOWA_START_YEAR;								/*	昭和の最初の年	*/
+	int heisei_start_year = HEISEI_START_YEAR;								/*	平成の最初の年	*/
+	int reiwa_start_year = REIWA_START_YEAR;								/*	令和の最初の年	*/
+
+	char* meiji[FIVE][TEN] = {
+							{ONE_YEAR ,TWO_YEARS,THREE_YEARS,FOUR_YEARS,FIVE_YEARS,SIX_YEARS,SEVEN_YEARS,EIGHT_YEARS,NINE_YEARS,TENS_YEARS},
+							{ELEVEN_YEARS,TWELVE_YEARS,THIRTEEN_YEARS,FOURTEEN_YEARS,FIFTEEN_YEARS,SIXTEEN_YEARS,SEVENTEEN_YEARS,EIGHTEEN_YEARS,NINETEEN_YEARS,TWENTY_YEARS},
+							{TWENTY_ONE_YEARS,TWENTY_TWO_YEARS,TWENTY_THREE_YEARS,TWENTY_FOUR_YEARS,TWENTY_FIVE_YEARS,TWENTY_SIX_YEARS,TWENTY_SEVEN_YEARS,TWENTY_EIGHT_YEARS,TWENTY_NINE_YEARS,THIRTY_YEARS},
+							{THIRTY_ONE_YEARS,THIRTY_TWO_YEARS,THIRTY_THREE_YEARS,THIRTY_FOUR_YEARS,THIRTY_FIVE_YEARS,THIRTY_SIX_YEARS,THIRTY_SEVEN_YEARS,THIRTY_EIGHT_YEARS,THIRTY_NINE_YEARS,FOURTY_YEARS},
+							{FOURTY_ONE_YEARS,FOURTY_TWO_YEARS,FOURTY_THREE_YEARS,FOURTY_FOUR_YEARS,FOURTY_FIVE_YEARS }
+							};												/*	明治の配列	*/
+
+	char* taisho[TWO][TEN] = {
+							{ONE_YEAR ,TWO_YEARS,THREE_YEARS,FOUR_YEARS,FIVE_YEARS,SIX_YEARS,SEVEN_YEARS,EIGHT_YEARS,NINE_YEARS,TENS_YEARS},
+							{ELEVEN_YEARS,TWELVE_YEARS,THIRTEEN_YEARS,FOURTEEN_YEARS,FIFTEEN_YEARS }
+							};												/*	大正の配列	*/
+
+	char* showa[SEVEN][TEN] = {
+							{ONE_YEAR ,TWO_YEARS,THREE_YEARS,FOUR_YEARS,FIVE_YEARS,SIX_YEARS,SEVEN_YEARS,EIGHT_YEARS,NINE_YEARS,TENS_YEARS},
+							{ELEVEN_YEARS,TWELVE_YEARS,THIRTEEN_YEARS,FOURTEEN_YEARS,FIFTEEN_YEARS,SIXTEEN_YEARS,SEVENTEEN_YEARS,EIGHTEEN_YEARS,NINETEEN_YEARS,TWENTY_YEARS},
+							{TWENTY_ONE_YEARS,TWENTY_TWO_YEARS,TWENTY_THREE_YEARS,TWENTY_FOUR_YEARS,TWENTY_FIVE_YEARS,TWENTY_SIX_YEARS,TWENTY_SEVEN_YEARS,TWENTY_EIGHT_YEARS,TWENTY_NINE_YEARS,THIRTY_YEARS},
+							{THIRTY_ONE_YEARS,THIRTY_TWO_YEARS,THIRTY_THREE_YEARS,THIRTY_FOUR_YEARS,THIRTY_FIVE_YEARS,THIRTY_SIX_YEARS,THIRTY_SEVEN_YEARS,THIRTY_EIGHT_YEARS,THIRTY_NINE_YEARS,FOURTY_YEARS},
+							{FOURTY_ONE_YEARS,FOURTY_TWO_YEARS,FOURTY_THREE_YEARS,FOURTY_FOUR_YEARS,FOURTY_FIVE_YEARS,FOURTY_SIX_YEARS,FOURTY_SEVEN_YEARS,FOURTY_EIGHT_YEARS,FOURTY_NINE_YEARS,FIFTY_YEARS},
+							{FIFTY_ONE_YEARS,FIFTY_TWO_YEARS,FIFTY_THREE_YEARS,FIFTY_FOUR_YEARS,FIFTY_FIVE_YEARS,FIFTY_SIX_YEARS,FIFTY_SEVEN_YEARS,FIFTY_EIGHT_YEARS,FIFTY_NINE_YEARS,SIXTY_YEARS},
+							{SIXTY_ONE_YEARS,SIXTY_TWO_YEARS,SIXTY_THREE_YEARS,SIXTY_FOUR_YEARS }
+							};												/*	昭和の配列	*/
+
+
+	char* heisei[FOUR][TEN] = {
+							{ONE_YEAR ,TWO_YEARS,THREE_YEARS,FOUR_YEARS,FIVE_YEARS,SIX_YEARS,SEVEN_YEARS,EIGHT_YEARS,NINE_YEARS,TENS_YEARS},
+							{ELEVEN_YEARS,TWELVE_YEARS,THIRTEEN_YEARS,FOURTEEN_YEARS,FIFTEEN_YEARS,SIXTEEN_YEARS,SEVENTEEN_YEARS,EIGHTEEN_YEARS,NINETEEN_YEARS,TWENTY_YEARS},
+							{TWENTY_ONE_YEARS,TWENTY_TWO_YEARS,TWENTY_THREE_YEARS,TWENTY_FOUR_YEARS,TWENTY_FIVE_YEARS,TWENTY_SIX_YEARS,TWENTY_SEVEN_YEARS,TWENTY_EIGHT_YEARS,TWENTY_NINE_YEARS,THIRTY_YEARS},
+							{THIRTY_ONE_YEARS }
+							};												/*	平成の配列	*/
+
+	char* reiwa[TWO][TEN] = {
+							{ONE_YEAR ,TWO_YEARS,THREE_YEARS,FOUR_YEARS,FIVE_YEARS,SIX_YEARS,SEVEN_YEARS,EIGHT_YEARS,NINE_YEARS,TENS_YEARS},
+							{ELEVEN_YEARS,TWELVE_YEARS,THIRTEEN_YEARS,FOURTEEN_YEARS,FIFTEEN_YEARS,SIXTEEN_YEARS,SEVENTEEN_YEARS,EIGHTEEN_YEARS,NINETEEN_YEARS,TWENTY_YEARS}
+							};												/*	令和の配列	*/
+	
+	
+	if ((year >= MEIJI_START_YEAR) && (year < TAISHO_START_YEAR))			/*	1868年～1911年までかを確認する	*/
+	{
+		for (i = ZERO; i < FIVE; i++)										/*	行のループ		*/
+		{
+			for (j = ZERO; j < TEN; j++)									/*	カラムのループ	*/
+			{
+				if (year == meiji_start_year)								/*	明治の最初年かを確認する	*/
+				{
+					printf(MEIJI);											/*	明治を表示する		*/
+					printf("%s\n", meiji[i][j]);							/*	明治の年を表示する	*/
+					return;													/*	実行を終了する		*/
+				}
+				else
+				{
+					meiji_start_year++;										/*	明治の年を増加する　*/
+				}
+			}
+		}
+	}
+
+	if ((pattern == ONE) && (year == TAISHO_START_YEAR))					/*	1912年かを確認する		*/
+	{
+		printf(MEIJI);														/*	明治表示する			*/
+		printf("%s\n", meiji[FOUR][FOUR]);									/*	明治最後の年を表示する	*/
+		printf(TAISHO);														/*	大正を表示する			*/
+		printf("%s\n", taisho[ZERO][ZERO]);									/*	大正の最初の年を表示する*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if (((pattern == TWO) && (year == TAISHO_START_YEAR) && (month <= JUNE) && (day <= THIRTY_ONE)) ||
+		((pattern == TWO) && (year == TAISHO_START_YEAR) && (month == JULY) && (day <= TWENTY_NINE)))	/*	1912年1月1月～1912年7月29日までかを確認する		*/
+	{
+		printf(MEIJI);														/*	明治表示する			*/
+		printf("%s\n", meiji[FOUR][FOUR]);									/*	明治最後の年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if (((pattern == TWO) && (year == TAISHO_START_YEAR) && (month == JULY) && (day >= THIRTY)) || 
+		((pattern == TWO) && (year == TAISHO_START_YEAR) && (month == AUGUST) && (day <= THIRTY_ONE)))	/*	1912年7月30日～1912年12月31日までかを確認する	*/
+	{
+		printf(TAISHO);														/*	大正を表示する			*/
+		printf("%s\n", taisho[ZERO][ZERO]);									/*	大正の最初の年を表示する*/
+		return;																/*	実行を終了する		*/
+	}
+
+	if ((year > TAISHO_START_YEAR) && (year < SHOWA_START_YEAR))			/*	1913年～1925年までかを確認する	*/
+	{
+		for (i = ZERO; i < TWO; i++)										/*	行のループ		*/
+		{
+			for (j = ZERO; j < TEN; j++)									/*	カラムのループ	*/
+			{
+				if (year == taisho_start_year)								/*	大正の最初年かを確認する*/
+				{
+					printf(TAISHO);											/*	大正を表示する		*/
+					printf("%s\n", taisho[i][j]);							/*	大正の年をを表示する*/
+					return;													/*	実行を終了する		*/
+				}
+				else
+				{
+					taisho_start_year++;									/*	大正年を増加する	　*/
+				}
+			}
+		}
+	}
+
+	if ((pattern == ONE) && (year == SHOWA_START_YEAR))						/*	1926年かを確認する		*/
+	{
+		printf(TAISHO);														/*	大正を表示する			*/
+		printf("%s\n", taisho[ONE][FOUR]);									/*	大正の最後年を表示する	*/
+		printf(SHOWA);														/*	昭和を表示する			*/
+		printf("%s\n", showa[ZERO][ZERO]);									/*	昭和の最後年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if (((pattern == TWO) && (year == SHOWA_START_YEAR) && (month <= NOVEMBER) && (day <= THIRTY_ONE)) || 
+		((pattern == TWO) && (year == SHOWA_START_YEAR) && (month == DECEMBER) && (day <= TWENTY_FOUR)))	/*	1926年1月1日～1926年12月24日までかを確認する	*/
+	{
+		printf(TAISHO);														/*	大正を表示する			*/
+		printf("%s\n", taisho[ONE][FOUR]);									/*	大正の最後年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if (pattern == TWO && year == SHOWA_START_YEAR && month == DECEMBER && day >= TWENTY_FIVE)	/*	1926年12月25日～1926年12月31日までかを確認する	*/
+	{
+		printf(SHOWA);														/*	昭和を表示する			*/
+		printf("%s\n", showa[ZERO][ZERO]);									/*	昭和の最後年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if ((year > SHOWA_START_YEAR) && (year < HEISEI_START_YEAR))			/*	1927年～1988年までかを確認する	*/
+	{
+		for (i = ZERO; i < SEVEN; i++)										/*	行のループ		*/
+		{
+			for (j = ZERO; j < TEN; j++)									/*	カラムのループ	*/
+			{
+				if (year == showa_start_year)								/*	昭和の最初年かを確認する　*/
+				{
+					printf(SHOWA);											/*	昭和を表示する			*/
+					printf("%s\n", showa[i][j]);							/*	昭和の年を表示する		*/
+					return;													/*	実行を終了する			*/
+				}
+				else
+				{
+					showa_start_year++;										/*	昭和年を増加す	　		*/
+				}
+			}
+		}
+	}
+	
+	if (pattern == ONE && year == HEISEI_START_YEAR)						/*	1989年かを確認する		*/
+	{
+		printf(SHOWA);														/*	昭和を表示する			*/
+		printf("%s\n", showa[SIX][THREE]);									/*	昭和の最後年を表示する	*/
+		printf(HEISEI);														/*	平成を表示する			*/
+		printf("%s\n", heisei[ZERO][ZERO]);									/*	平成の最初年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if (pattern == TWO && year == HEISEI_START_YEAR && month == JANUARY && day <= JULY)	/*	1989年1月1日～1989年1月7日までかを確認する	*/
+	{
+		printf(SHOWA);														/*	昭和を表示する			*/
+		printf("%s\n", showa[SIX][THREE]);									/*	昭和の最後年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if ((pattern == TWO && year == HEISEI_START_YEAR && month == JANUARY && day >= AUGUST) ||
+		(pattern == TWO && year == HEISEI_START_YEAR && month >= FEBUARY && day <= THIRTY_ONE))	/*	1989年1月7日～1989年12月31日までかを確認する	*/
+	{
+		printf(HEISEI);														/*	平成を表示する			*/
+		printf("%s\n", heisei[ZERO][ZERO]);									/*	平成の最初年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if ((year > HEISEI_START_YEAR) && (year < REIWA_START_YEAR))			/*	1990年～2018年までかを確認する	*/
+	{
+		for (i = ZERO; i < FOUR; i++)										/*	行のループ					*/
+		{
+			for (j = ZERO; j < TEN; j++)									/*	カラムのループ				*/
+			{
+				if (year == heisei_start_year)								/*	平成の最初年かを確認する　*/
+				{
+					printf(HEISEI);											/*	平成を表示する			*/
+					printf("%s\n", heisei[i][j]);							/*	平成の年を表示する		*/
+					return;													/*	実行を終了する			*/
+				}
+				else
+				{
+					heisei_start_year++;									/*	平成年を増加する　		*/
+				}
+			}
+		}
+	}
+	
+	if (pattern == JANUARY && year == REIWA_START_YEAR)						/*	2019年かを確認する		*/
+	{
+		printf(HEISEI);														/*	平成を表示する			*/
+		printf("%s\n", heisei[THREE][ZERO]);								/*	平成の最後年を表示する	*/
+		printf(REIWA);														/*	令和を表示する			*/
+		printf("%s\n", reiwa[ZERO][ZERO]);									/*	令和の最初年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if (pattern == TWO && year == REIWA_START_YEAR && month <= APRIL && day <= THIRTY)	/*	2019年1月1日～2019年4月30日までかを確認する	*/
+	{
+		printf(HEISEI);														/*	平成を表示する			*/
+		printf("%s\n", heisei[THREE][ZERO]);								/*	平成の最後年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+
+	if (pattern == TWO && year == REIWA_START_YEAR && month >= MAY && day >= JANUARY)	/*	2019年5月1日～2019年12月31日までかを確認する	*/
+	{
+		printf(REIWA);														/*	令和を表示する			*/
+		printf("%s\n", reiwa[ZERO][ZERO]);									/*	令和の最初年を表示する	*/
+		return;																/*	実行を終了する			*/
+	}
+	   	  
+	if (year == END_YEAR)													/*	2020年かを確認する	*/
+	{
+		for (i = ZERO; i < TWO; i++)										/*	行のループ		*/
+		{
+			for (j = ZERO; j < TEN; j++)									/*	カラムのループ	*/
+			{
+				if (year == reiwa_start_year)								/*	令和の最初年かを確認する	*/
+				{
+					printf(REIWA);											/*	令和を表示する	*/
+					printf("%s\n", reiwa[i][j]);							/*	令和の年をを表示する	*/
+					return;													/*	実行を終了する	*/
+				}
+				else
+				{
+					reiwa_start_year++;										/*	令和年を増加する　*/
+				}
+			}
+		}
+	}
+}

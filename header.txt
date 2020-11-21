@@ -1,0 +1,148 @@
+/*-----------------------------*/
+/*  インクルードファイル       */
+/*-----------------------------*/
+#include<stdio.h>
+#include<stdbool.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+
+/*-----------------*/
+/*プロトタイプ宣言 */
+/*-----------------*/
+
+void Calculate(int, int, int, int);												/*	関数宣言	*/
+
+#define	MEIJI_START_YEAR	1868												/*	明治の最初の年*/
+#define	TAISHO_START_YEAR	1912												/*	大正の最初の年*/
+#define	SHOWA_START_YEAR	1926												/*	昭和の最初の年*/
+#define	HEISEI_START_YEAR	1989												/*	平成の最初の年*/
+#define	REIWA_START_YEAR	2019												/*	令和の最初の年*/
+#define	END_YEAR			2020												/*	令和の最後の年*/
+
+#define	ZERO				0													/*	初期数	*/
+#define	ONE					1													/*	年月日	*/
+#define	TWO					2													/*	年月日	*/
+#define	THREE				3													/*	年月日	*/
+#define	FOUR				4													/*	年月日	*/
+#define	FIVE				5													/*	年月日	*/
+#define SIX					6													/*	年月日	*/
+#define	SEVEN				7													/*	年月日	*/
+#define EIGHT				8													/*	年月日	*/
+#define	NINE				9													/*	年月日	*/
+#define	TEN					10													/*	年月日	*/
+#define	ELEVEN				11													/*	年月日	*/
+#define	TWELVE				12													/*	年月日	*/
+#define TWENTY_FOUR			24
+#define	TWENTY_FIVE			25													/*	年月日	*/
+#define	TWENTY_EIGHT		28													/*	年月日	*/
+#define	TWENTY_NINE			29													/*	年月日	*/
+#define	THIRTY				30													/*	年月日	*/
+#define THIRTY_ONE			31													/*	年月日	*/	
+#define	HUNDRED				100													/*	割り切れる数	*/
+#define FOUR_HUNDRED		400													/*	割り切れる数	*/
+
+#define	JANUARY				1													/*	月の名前	*/
+#define	FEBUARY				2													/*	月の名前	*/
+#define	MARCH				3													/*	月の名前	*/
+#define	APRIL				4													/*	月の名前	*/
+#define	MAY					5													/*	月の名前	*/
+#define	JUNE				6													/*	月の名前	*/
+#define	JULY				7													/*	月の名前	*/
+#define	AUGUST				8													/*	月の名前	*/
+#define	SEPTEMBER			9													/*	月の名前	*/
+#define	OCTOBER				10													/*	月の名前	*/
+#define	NOVEMBER			11													/*	月の名前	*/
+#define	DECEMBER			12													/*	月の名前	*/
+
+#define	MEIJI				"明治　"											/*	日本の世紀	*/
+#define	TAISHO				"大正　"											/*	日本の世紀	*/
+#define	SHOWA				"昭和　"											/*	日本の世紀	*/
+#define	HEISEI				"平成　"											/*	日本の世紀	*/
+#define	REIWA				"令和　"											/*	日本の世紀	*/
+
+#define	YEAR				"西暦の年	:"										/*	入力させる年のメッセージ*/
+#define	MONTH				"西暦の月	:"										/*	入力させる月のメッセージ*/
+#define	DAY					"西暦の日	:"										/*	入力させる日のメッセージ*/
+
+#define	OUT_OF_RANGE_YEAR	"年が範囲外です。再入力してください。\n\n"			/*	再入力させるメッセージ	*/
+#define	OUT_OF_RANGE		"年月日が範囲外です。再入力してください。\n\n"		/*	再入力させるメッセージ	*/
+#define	PATTERN				"パターンを選択してください	："						/*	パターンを選択させるメッセージ	*/
+#define	WRONG_PATTERN		"\nパターンが範囲外です。\n"						/*	範囲外メッセージ	*/
+#define	LEAP_YEAR			"年月日が範囲外です。うるう年には29日しかありません。\n再入力してください。\n\n"	/*	範囲外メッセージ	*/
+
+#define	ONE_YEAR			"元年"												/*	和暦(年のみ）*/
+#define	TWO_YEARS			"２年"												/*	和暦(年のみ）*/
+#define	THREE_YEARS			"３年"												/*	和暦(年のみ）*/
+#define	FOUR_YEARS			"４年"												/*	和暦(年のみ）*/
+#define	FIVE_YEARS			"５年"												/*	和暦(年のみ）*/
+#define	SIX_YEARS			"６年"												/*	和暦(年のみ）*/
+#define	SEVEN_YEARS			"７年"												/*	和暦(年のみ）*/
+#define	EIGHT_YEARS			"８年"												/*	和暦(年のみ）*/
+#define	NINE_YEARS			"９年"												/*	和暦(年のみ）*/
+#define	TENS_YEARS			"１０年"											/*	和暦(年のみ）*/
+
+#define	ELEVEN_YEARS		"１１年"											/*	和暦(年のみ）*/
+#define	TWELVE_YEARS		"１２年"											/*	和暦(年のみ）*/
+#define	THIRTEEN_YEARS		"１３年"											/*	和暦(年のみ）*/
+#define	FOURTEEN_YEARS		"１４年"											/*	和暦(年のみ）*/
+#define	FIFTEEN_YEARS		"１５年"											/*	和暦(年のみ）*/
+#define	SIXTEEN_YEARS		"１６年"											/*	和暦(年のみ）*/
+#define	SEVENTEEN_YEARS		"１７年"											/*	和暦(年のみ）*/
+#define	EIGHTEEN_YEARS		"１８年"											/*	和暦(年のみ）*/
+#define	NINETEEN_YEARS		"１９年"											/*	和暦(年のみ）*/
+#define	TWENTY_YEARS		"２０年"											/*	和暦(年のみ）*/	
+
+#define	TWENTY_ONE_YEARS	"２１年"											/*	和暦(年のみ）*/
+#define	TWENTY_TWO_YEARS	"２２年"											/*	和暦(年のみ）*/
+#define	TWENTY_THREE_YEARS	"２３年"											/*	和暦(年のみ）*/
+#define	TWENTY_FOUR_YEARS	"２４年"											/*	和暦(年のみ）*/
+#define	TWENTY_FIVE_YEARS	"２５年"											/*	和暦(年のみ）*/
+#define	TWENTY_SIX_YEARS	"２６年"											/*	和暦(年のみ）*/
+#define	TWENTY_SEVEN_YEARS	"２７年"											/*	和暦(年のみ）*/
+#define	TWENTY_EIGHT_YEARS	"２８年"											/*	和暦(年のみ）*/
+#define	TWENTY_NINE_YEARS	"２９年"											/*	和暦(年のみ）*/
+#define	THIRTY_YEARS		"３０年"											/*	和暦(年のみ）*/
+
+#define	THIRTY_ONE_YEARS	"３１年"											/*	和暦(年のみ）*/
+#define	THIRTY_TWO_YEARS	"３２年"											/*	和暦(年のみ）*/
+#define	THIRTY_THREE_YEARS	"３３年"											/*	和暦(年のみ）*/
+#define	THIRTY_FOUR_YEARS	"３４年"											/*	和暦(年のみ）*/
+#define	THIRTY_FIVE_YEARS	"３５年"											/*	和暦(年のみ）*/
+#define	THIRTY_SIX_YEARS	"３６年"											/*	和暦(年のみ）*/
+#define	THIRTY_SEVEN_YEARS	"３７年"											/*	和暦(年のみ）*/
+#define	THIRTY_EIGHT_YEARS	"３８年"											/*	和暦(年のみ）*/
+#define	THIRTY_NINE_YEARS	"３９年"											/*	和暦(年のみ）*/
+#define	FOURTY_YEARS		"４０年"											/*	和暦(年のみ）*/
+
+#define	FOURTY_ONE_YEARS	"４１年"											/*	和暦(年のみ）*/
+#define	FOURTY_TWO_YEARS	"４２年"											/*	和暦(年のみ）*/	
+#define	FOURTY_THREE_YEARS	"４３年"											/*	和暦(年のみ）*/
+#define	FOURTY_FOUR_YEARS	"４４年"											/*	和暦(年のみ）*/
+#define	FOURTY_FIVE_YEARS	"４５年"											/*	和暦(年のみ）*/
+#define	FOURTY_SIX_YEARS	"４６年"											/*	和暦(年のみ）*/
+#define	FOURTY_SEVEN_YEARS	"４７年"											/*	和暦(年のみ）*/
+#define	FOURTY_EIGHT_YEARS	"４８年"											/*	和暦(年のみ）*/
+#define	FOURTY_NINE_YEARS	"４９年"											/*	和暦(年のみ）*/
+#define	FIFTY_YEARS			"５０年"											/*	和暦(年のみ）*/
+
+#define	FIFTY_ONE_YEARS		"５１年"											/*	和暦(年のみ）*/	
+#define	FIFTY_TWO_YEARS		"５２年"											/*	和暦(年のみ）*/
+#define	FIFTY_THREE_YEARS	"５３年"											/*	和暦(年のみ）*/
+#define	FIFTY_FOUR_YEARS	"５４年"											/*	和暦(年のみ）*/
+#define	FIFTY_FIVE_YEARS	"５５年"											/*	和暦(年のみ）*/
+#define	FIFTY_SIX_YEARS		"５６年"											/*	和暦(年のみ）*/
+#define	FIFTY_SEVEN_YEARS	"５７年"											/*	和暦(年のみ）*/
+#define	FIFTY_EIGHT_YEARS	"５８年"											/*	和暦(年のみ）*/
+#define	FIFTY_NINE_YEARS	"５９年"											/*	和暦(年のみ）*/
+#define	SIXTY_YEARS			"６０年"											/*	和暦(年のみ）*/
+
+#define	SIXTY_ONE_YEARS		"６１年"											/*	和暦(年のみ）*/
+#define	SIXTY_TWO_YEARS		"６２年"											/*	和暦(年のみ）*/
+#define	SIXTY_THREE_YEARS	"６３年"											/*	和暦(年のみ）*/
+#define	SIXTY_FOUR_YEARS	"６４年"											/*	和暦(年のみ）*/
+
+
+
+
+
